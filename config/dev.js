@@ -1,4 +1,6 @@
 // webpack开发环境配置
+// https://webpack.docschina.org/configuration/dev-server/
+
 const chalk = require('chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');

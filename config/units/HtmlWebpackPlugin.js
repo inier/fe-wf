@@ -1,7 +1,12 @@
 // html自动生成
+// https://webpack.docschina.org/plugins/html-webpack-plugin/
+// https://github.com/jantimon/html-webpack-plugin
+// https://github.com/SimenB/add-asset-html-webpack-plugin
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const commonConfig = require('../common');
+const { checkCLIOptions } = require('../utils');
 const { entry: dllEntry, path: dllPath } = commonConfig.dll;
 
 module.exports = (config, resolve) => {
@@ -37,12 +42,12 @@ module.exports = (config, resolve) => {
             },
         ]);
 
-        if (process.argv.includes('--dll')) {
+        if (checkCLIOptions('--dll')) {
             // 给定的 JS 或 CSS 文件添加到 webpack 配置的文件中，并将其放入资源列表 html webpack插件注入到生成的 html 中。
             config.plugin('AddAssetHtmlPlugin').use(AddAssetHtmlPlugin, [
                 {
-                    // 要添加到编译中的文件的绝对路径
-                    filepath: resolve(`${dllPath}/dll.${dllEntry}*.js`),
+                    // 要添加到编译中的文件的绝对路径，*通配带hash的文件
+                    filepath: resolve(`${dllPath}/dll.${dllEntry}*.js`), 
                     outputPath: dllPath,
                     publicPath: dllPath,
                     includeSourcemap: false,

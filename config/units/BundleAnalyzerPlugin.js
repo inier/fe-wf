@@ -1,15 +1,17 @@
 // 打包体积分析
-const {
-  BundleAnalyzerPlugin
-} = require('webpack-bundle-analyzer')
+// https://github.com/webpack-contrib/webpack-bundle-analyzer
+
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { checkCLIOptions } = require('../utils');
 
 module.exports = (config, resolve) => {
-  return () => {
-    if (process.argv.includes('--report')) {
-      config.plugin('BundleAnalyzerPlugin')
-        .use(BundleAnalyzerPlugin, [{
-          analyzerMode: 'static'
-        }])
-    }
-  }
-}
+    return () => {
+        if (checkCLIOptions('--report')) {
+            config.plugin('BundleAnalyzerPlugin').use(BundleAnalyzerPlugin, [
+                {
+                    analyzerMode: 'static',
+                },
+            ]);
+        }
+    };
+};

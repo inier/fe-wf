@@ -1,4 +1,7 @@
-// 使用 babel 配置 ts
+// babel 配置
+
+// https://www.babeljs.cn/
+
 module.exports = function(api) {
     return {
         plugins: [
@@ -17,6 +20,8 @@ module.exports = function(api) {
             '@babel/proposal-object-rest-spread',
         ],
         presets: [
+            // 配置 js
+            // https://www.babeljs.cn/docs/babel-preset-env
             [
                 '@babel/preset-env',
                 {
@@ -31,6 +36,8 @@ module.exports = function(api) {
                     },
                 },
             ],
+            // 配置 ts
+            // https://www.babeljs.cn/docs/babel-preset-typescript
             [
                 '@babel/preset-typescript',
                 {

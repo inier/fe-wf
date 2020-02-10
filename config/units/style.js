@@ -1,4 +1,10 @@
 // 配置样式，style，css、less、sass、postcss 等
+// https://webpack.docschina.org/loaders/style-loader/
+// https://webpack.docschina.org/loaders/css-loader/
+// https://webpack.docschina.org/loaders/postcss-loader/
+// https://webpack.docschina.org/loaders/sass-loader/
+// https://webpack.docschina.org/loaders/less-loader/
+
 module.exports = (config, resolve) => {
     const createCSSRule = (lang, test, loader, options = {}) => {
         const baseRule = config.module.rule(lang).test(test);

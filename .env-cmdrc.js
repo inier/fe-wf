@@ -1,4 +1,5 @@
 // .env-cmdrc.js
+// https://github.com/toddbluhm/env-cmd
 
 module.exports = {
     development: {

@@ -1,4 +1,7 @@
-// 配置 babel
+// 配置 babel-loader
+// https://webpack.docschina.org/loaders/babel-loader/
+// https://github.com/babel/babel-loader
+
 const commonConfig = require('../common');
 
 module.exports = (config, resolve) => {

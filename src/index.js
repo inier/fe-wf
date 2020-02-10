@@ -20,9 +20,11 @@ import('./ts/index.ts').then((res) => {
 setTimeout(() => {
     //动态加载
     import('./async.js')
-        .then((result) => {
-            console.log('async:', result.default);
-            document.body.append(result.default);
+        .then((res) => {
+            const tt = res.default('tttt');
+
+            console.log('async:', tt);
+            document.body.append(tt);
         })
         .catch((error) => {
             console.error(error);

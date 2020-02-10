@@ -1,4 +1,5 @@
 // .lintstagedrc.js
+
 // https://github.com/okonet/lint-staged
 
 module.exports = {

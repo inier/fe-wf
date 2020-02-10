@@ -1,4 +1,7 @@
 // ts 静态类型检查
+// https://github.com/TypeStrong/fork-ts-checker-webpack-plugin
+// https://github.com/johnnyreilly/fork-ts-checker-notifier-webpack-plugin
+
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 

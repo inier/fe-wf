@@ -1,22 +1,17 @@
 // webpack生产环境配置
+// https://webpack.docschina.org/concepts/
+
 const chalk = require('chalk');
 const rimraf = require('rimraf');
 const ora = require('ora');
 const webpack = require('webpack');
-const { resolve } = require('./utils');
-const commonConfig = require('./common');
-
-// 删除 dist 目录
-rimraf.sync(resolve('dist'));
-
+const { joinPathCWD } = require('./utils');
 const config = require('./base')();
 
-// 开启 source map
-const sourcemap = commonConfig.sourcemap;
-sourcemap && config.devtool(typeof sourcemap === 'string' ? sourcemap : 'cheap-source-map');
+// 删除 dist 目录
+rimraf.sync(joinPathCWD('dist'));
 
 const spinner = ora('开始构建项目...');
-
 spinner.start();
 
 webpack(config.toConfig(), function(err, stats) {

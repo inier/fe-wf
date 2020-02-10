@@ -1,4 +1,7 @@
 // 打包文件缓存
+// https://webpack.docschina.org/loaders/cache-loader/
+// https://github.com/webpack-contrib/cache-loader
+
 module.exports = (config, resolve) => {
     const baseRule = config.module.rule('js').test(/.js|.tsx?$/);
     return () => {

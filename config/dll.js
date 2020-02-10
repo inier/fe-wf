@@ -1,10 +1,12 @@
 // 将第三方长期不变的包打包成dll
+// https://webpack.docschina.org/plugins/dll-plugin/#dllplugin
+
 const chalk = require('chalk');
 const ora = require('ora');
 const rimraf = require('rimraf');
 const webpack = require('webpack');
 const Config = require('webpack-chain');
-const { resolve } = require('./utils');
+const { joinPathCWD,rm } = require('./utils');
 const commonConfig = require('./common');
 
 const config = new Config();
@@ -13,7 +15,7 @@ const BundleAnalyzerPlugin = require('./units/BundleAnalyzerPlugin')(config);
 BundleAnalyzerPlugin();
 
 const { entry, path, vendors } = commonConfig.dll;
-const dllPath = resolve(path);
+const dllPath = joinPathCWD(path);
 
 config
     .entry(entry)
@@ -34,15 +36,15 @@ config
         {
             // 和output.library中一致，值就是输出的manifest.json中的 name值
             name: '[name]_[chunkhash:6]',
-            path: resolve(`${path}/manifest.json`),
+            path: joinPathCWD(`${path}/manifest.json`),
         },
     ])
     .end();
 
 // 删除dll目录
-rimraf.sync(resolve(path));
-
-const spinner = ora('开始构建项目...');
+// rimraf.sync();
+rm("-rf", joinPathCWD(path));
+const spinner = ora('开始构建 dll...');
 spinner.start();
 
 webpack(config.toConfig(), function(err, stats) {
@@ -67,5 +69,5 @@ webpack(config.toConfig(), function(err, stats) {
         process.exit(1);
     }
 
-    console.log(chalk.cyan('build完成\n'));
+    console.log(chalk.cyan('dll 构建完成\n'));
 });

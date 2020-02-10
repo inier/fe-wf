@@ -1,7 +1,9 @@
 // 打包优化
+
 module.exports = (config, resolve) => {
     return () => {
         // Bundle Splitting
+        // https://webpack.docschina.org/configuration/optimization/#optimization-splitchunks
         config.optimization.splitChunks({
             chunks: 'async',
             minSize: 30000,
@@ -33,6 +35,7 @@ module.exports = (config, resolve) => {
         // 4.babelrc中设置presets [["@babel/preset-env", { "modules": false }]] 禁止转换模块，交由webpack进行模块化处理
         // 5.结合uglifyjs-webpack-plugin
         // webpack4 在生产环境已经默认添加，开箱即用
+        // https://webpack.docschina.org/configuration/optimization/#optimization-usedexports
         config.optimization.usedExports(true);
     };
 };
