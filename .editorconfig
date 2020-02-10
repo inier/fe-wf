@@ -1,0 +1,27 @@
+# http://editorconfig.org
+
+# top-most EditorConfig file
+root = true
+
+# 对所有文件生效
+[*]
+# 字符编码 utf-8
+charset = utf-8
+# 空格形式缩进4空格
+indent_style = space
+indent_size = 4
+# 换行符使用 unix 的换行符 \n
+end_of_line = lf
+# 文件结尾插入新行
+insert_final_newline = true
+# 行末尾去除空格
+trim_trailing_whitespace = true
+
+# 对后缀名为 md 的文件生效
+[*.md]
+# .md 文件不去掉每行末尾的空格
+trim_trailing_whitespace = false
+
+[{package.json,*.yml}]
+indent_style = space
+indent_size = 2

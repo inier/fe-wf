@@ -1,0 +1,13 @@
+/* index.css */
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: red;
+}
+.test {
+    display: flex;
+    width: 200px;
+    height: 200px;
+    color: blue;
+    background-color: orange;
+}
