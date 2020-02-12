@@ -3,7 +3,6 @@
 
 module.exports = {
     development: {
-        PORT: 3000,
         NODE_ENV: 'development',
     },
     production: {

@@ -2,11 +2,10 @@
 // https://github.com/webpack-contrib/webpack-bundle-analyzer
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { checkCLIOptions } = require('../utils');
 
-module.exports = (config, resolve) => {
+module.exports = ({ config, options }) => {
     return () => {
-        if (checkCLIOptions('--report')) {
+        if (options.report) {
             config.plugin('BundleAnalyzerPlugin').use(BundleAnalyzerPlugin, [
                 {
                     analyzerMode: 'static',

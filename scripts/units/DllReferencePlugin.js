@@ -2,17 +2,17 @@
 // https://webpack.docschina.org/plugins/dll-plugin/#dllreferenceplugin
 
 const webpack = require('webpack');
-const { checkCLIOptions } = require('../utils');
 
-module.exports = (config, resolve) => {
+module.exports = ({ config, resolve, options }) => {
     return () => {
-        if (checkCLIOptions('--dll')) {
+        if (options.dll) {
+            const dllPath = (options.dllCfg && options.dllCfg.output) || 'dll';
             // 告诉 Webpack 使用动态链接库
             config.plugin('DllReferencePlugin').use(webpack.DllReferencePlugin, [
                 {
                     context: process.cwd(),
                     // 描述动态链接库的文件内容
-                    manifest: require(resolve('dll/manifest.json')),
+                    manifest: require(resolve(dllPath, 'manifest.json')),
                 },
             ]);
         }

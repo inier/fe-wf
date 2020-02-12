@@ -3,12 +3,10 @@
 // https://github.com/webpack-contrib/compression-webpack-plugin
 
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const commonConfig = require('../common');
-const { checkCLIOptions } = require('../utils');
 
-module.exports = (config, resolve) => {
+module.exports = ({ config, options }) => {
     return () => {
-        if (checkCLIOptions('--gzip')) {
+        if (options.gzip) {
             config.plugin('CompressionWebpackPlugin').use(CompressionWebpackPlugin, [
                 {
                     algorithm: 'gzip',

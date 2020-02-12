@@ -26,7 +26,7 @@ fe-wf
 
 ## 命令行
 
--   yarn start    开发
+-   yarn dev      开发
 -   yarn debug    调试打包
 -   yarn prod     生产打包
 -   yarn dll      构建dll
