@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styles from './style/index.module.scss';
 import './style/react.scss';
 
 class Square extends React.Component {
@@ -29,7 +30,7 @@ class Board extends React.Component {
 
         return (
             <div>
-                <div className="status">{status}</div>
+                <div className={`${styles.test} status`}>{status}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}

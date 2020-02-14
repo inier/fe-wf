@@ -5,6 +5,9 @@
     "version": "0.2.0",
     "configurations": [        
 
+
+
+
     {
         "type": "node",
         "request": "launch",
@@ -39,7 +42,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\bin/box.js",
-            "args": ["prod","-d","-m", "-r", "-g"]
+            "args": ["prod", "react", "-m", "-r", "-g"]
         },
         {
             "type": "node",
@@ -49,7 +52,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\bin/box.js",
-            "args": ["dev","index2","-d","-m"]
+            "args": ["dev","react","-m"]
         },
         {
             "type": "node",

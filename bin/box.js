@@ -14,12 +14,8 @@ let boxConf = {};
 
 // 整合config
 try {
-    const { base, ...restConfig } = require(joinPathCWD('scripts/config/index.js'))();
-    const { vue, react, typescript, eslint, ESModules } = restConfig;
-
+    process.env.NODE_ENV = 'development';
     Object.assign(boxConf, {
-        ...base,
-        ...restConfig,
         // package.json
         appPackageJson: packageConfig,
         // 生产环境
@@ -28,6 +24,14 @@ try {
         isEnvDev: process.env.NODE_ENV === 'development',
         // 测试环境
         isEnvTest: process.env.NODE_ENV === 'test',
+    });
+
+    const { base, ...restConfig } = require(joinPathCWD('scripts/config/index.js'))(boxConf);
+    const { vue, react, typescript, eslint, ESModules } = restConfig;
+
+    Object.assign(boxConf, {
+        ...base,
+        ...restConfig,
         isVueEnabled: vue.open,
         isReactEnabled: react.open,
         isTypeScriptEnabled: typescript.open,
@@ -66,6 +70,7 @@ program
     .option('-r, --report', '打包分析报告')
     .option('-g, --gzip', '开启Gzip')
     .option('-m, --map', '开启SourceMap')
+    .option('-dv, --debug', '开启移动端调试')
     .option('-d, --dll', '合并dll差分包')
     .option('-s, --sep', '合并dll差分包时，多页面分开部署')
     .option('-p, --spa', '多页面开发中采用SPA单页打包,代码会输出到根目录(默认会生成name命名的目录)')
@@ -79,7 +84,7 @@ program
         lock = true;
         start();
         if (args.dll) {
-            await require('../scripts/dll')(args);
+            require('../scripts/dll')(args);
         }
         if (args.isMultiPages) {
             const { pages, entry } = boxConf;
@@ -110,6 +115,7 @@ program
     .description(`开发环境构建`)
     .option('-d, --dll', '合并差分包')
     .option('-m, --map', '开启SourceMap')
+    .option('-dv, --debug', '开启移动端调试')
     .option('-p, --spa', '多页面开发中采用SPA单页打包,代码会输出到根目录(默认会生成name命名的目录)')
     .action(async (name, cmd) => {
         const options = cleanArgs(cmd);

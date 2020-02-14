@@ -6,8 +6,8 @@ module.exports = {
     dist: 'dist',
     // 公共地址，用于处理静态资源的引用问题，可以是相对路径或CDN等绝对地址
     publicPath: '/',
-    // 需要单独打包的库集合
-    vendors: ['react', 'vue'],
+    // 需要单独打包的三方库集合
+    libs: ['react', 'vue'],
     pages: {
         index: {
             entry: 'src/index.js',

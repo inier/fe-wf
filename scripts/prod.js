@@ -20,6 +20,9 @@ module.exports = async function(options) {
         options.chainWebpack(config);
     }
 
+    const webpackConfig = config.toConfig();
+    console.log('webpack配置：', webpackConfig);
+
     webpack(config.toConfig(), function(err, stats) {
         spinner.stop();
 

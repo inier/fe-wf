@@ -18,14 +18,14 @@ module.exports = async function(options) {
         BundleAnalyzerPlugin();
     }
 
-    options.vendors.forEach((item) => {
+    options.libs.forEach((item) => {
         config
             .entry(options.name || entry)
             .add(item)
             .end();
     });
 
-    config
+    await config
         .mode('production')
         // 指定生成文件所在目录文件夹
         // 注意：打包的dll文件需要通过其他方式引入html
@@ -50,6 +50,8 @@ module.exports = async function(options) {
 
     const spinner = ora('开始构建 dll...');
     spinner.start();
+
+    console.log('webpack配置：', config.toConfig());
 
     await webpack(config.toConfig(), function(err, stats) {
         spinner.stop();

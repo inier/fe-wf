@@ -20,11 +20,20 @@ module.exports = (options) => {
                 '@babel/preset-env',
                 {
                     useBuiltIns: 'entry',
-                    corejs: 3,
+                    corejs: { version: 3, proposals: true },
                     modules: false,
                     exclude: ['transform-typeof-symbol'],
                 },
             ],
+            // 配置 ts
+            // https://www.babeljs.cn/docs/babel-preset-typescript
+            isTypeScriptEnabled && [
+                '@babel/preset-typescript',
+                {
+                    allExtensions: true,
+                },
+            ],
+            // https://www.babeljs.cn/docs/babel-preset-react
             isReactEnabled && [
                 '@babel/preset-react',
                 {
@@ -36,24 +45,12 @@ module.exports = (options) => {
                     useBuiltIns: true,
                 },
             ],
-            // 配置 ts
-            // https://www.babeljs.cn/docs/babel-preset-typescript
-            isTypeScriptEnabled && [
-                '@babel/preset-typescript',
-                {
-                    allExtensions: true,
-                },
-            ],
+            // https://github.com/vuejs/jsx/tree/dev/packages/babel-preset-jsx
             isVueEnabled && ['@vue/babel-preset-jsx'],
         ]),
+        // https://babeljs.io/docs/en/plugins
         plugins: compact([
-            ['@babel/plugin-proposal-decorators', { legacy: true }],
-            [
-                '@babel/plugin-proposal-class-properties',
-                {
-                    loose: true,
-                },
-            ],
+            // https://babeljs.io/docs/en/babel-plugin-transform-runtime
             [
                 '@babel/plugin-transform-runtime',
                 {
@@ -61,6 +58,15 @@ module.exports = (options) => {
                     useESModules,
                     version: require('@babel/runtime/package.json').version,
                     absoluteRuntime: path.dirname(require.resolve('@babel/runtime/package.json')),
+                },
+            ],
+            '@babel/plugin-syntax-dynamic-import',
+            // https://babeljs.io/docs/en/babel-plugin-proposal-decorators
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            [
+                '@babel/plugin-proposal-class-properties',
+                {
+                    loose: true,
                 },
             ],
             'babel-plugin-macros',

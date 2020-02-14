@@ -4,9 +4,19 @@
 
 module.exports = ({ config, resolve, options }) => {
     const babelConfig = require(resolve('scripts/config/babel.js'))(options);
-    const { isVueEnabled, isReactEnabled, isTypeScriptEnabled } = options;
-    console.dir(babelConfig);
-    // vue & tsx & jsx Rule
+
+    const {
+        isVueEnabled,
+        isReactEnabled,
+        isTypeScriptEnabled,
+        isEnvProd,
+        isEnvTest,
+        map: shouldUseSourceMap,
+        libs = [],
+        dll: useDll,
+    } = options;
+
+    // js/jsx & tsx & vue Rule
     function createJSRule(lang, test, loader, options = {}, exclude = [], enforce) {
         const baseRule = config.module.rule(lang).test(test);
 
@@ -26,11 +36,27 @@ module.exports = ({ config, resolve, options }) => {
     }
 
     return () => {
+        let babelOptions = { presets: ['@babel/preset-env'] };
         let tsOptions = null;
 
-        createJSRule('js', /\.jsx?$/, 'babel-loader', babelConfig);
+        //test测试
+        if (isEnvTest) {
+            babelOptions = {
+                presets: [
+                    '@babel/preset-env',
+                    {
+                        targets: {
+                            node: 'current',
+                        },
+                    },
+                ],
+            };
+        }
 
+        // vue
         if (isVueEnabled) {
+            babelOptions.presets.push('@vue/babel-preset-jsx');
+
             createJSRule('vue', /\.vue$/, 'vue-loader');
 
             config.plugin('vue').use(require('vue-loader/lib/plugin'));
@@ -41,6 +67,12 @@ module.exports = ({ config, resolve, options }) => {
             };
         }
 
+        // react
+        if (isReactEnabled) {
+            babelOptions.presets.push('@babel/preset-react');
+        }
+
+        // ts
         if (isTypeScriptEnabled) {
             if (isVueEnabled) {
                 createJSRule('vts', /\.tsx?$/, 'ts-loader', tsOptions);
@@ -55,8 +87,112 @@ module.exports = ({ config, resolve, options }) => {
             }
         }
 
-        if (isReactEnabled && isTypeScriptEnabled) {
+        if (!isVueEnabled && isReactEnabled && isTypeScriptEnabled) {
             createJSRule('js', /\.js$/, 'source-map-loader', {}, [], 'pre');
+        }
+
+        createJSRule('js', /\.(js|jsx)$/, 'babel-loader', babelOptions); // babelConfig
+
+        // split libs
+        if (libs && libs.length && !useDll) {
+            // Bundle Splitting
+            // https://webpack.docschina.org/configuration/optimization/#optimization-splitchunks
+            config.optimization.splitChunks({
+                chunks: 'async', // 'all'
+                minSize: 30000, // 大于30KB
+                minChunks: 1,
+                maxAsyncRequests: 3,
+                maxInitialRequests: 3,
+                cacheGroups: {
+                    // 将公共的包提取到 chunk-vendors
+                    lib: {
+                        name: `chunk-vendors`,
+                        test: /[\\/]node_modules[\\/]/,
+                        priority: -10,
+                        chunks: 'initial',
+                    },
+                    common: {
+                        name: `chunk-common`,
+                        minChunks: 2,
+                        priority: -20,
+                        chunks: 'initial',
+                        reuseExistingChunk: true,
+                    },
+                },
+            });
+        }
+
+        // 分离 runtimeChunk
+        // https://webpack.docschina.org/configuration/optimization/#optimization-runtimechunk
+        config.optimization.runtimeChunk({
+            name: 'runtime', // runtime.[hash].js
+        });
+
+        if (isEnvProd) {
+            // Tree Shaking
+            // 如何使用tree-shaking？
+            // 1.确保代码是es6格式,即 export，import
+            // 2.package.json中，设置 sideEffects
+            // 3.确保 tree-shaking 的函数没有副作用
+            // 4.babelrc中设置presets [["@babel/preset-env", { "modules": false }]] 禁止转换模块，交由webpack进行模块化处理
+            // 5.结合uglifyjs-webpack-plugin
+            // webpack4 在生产环境已经默认添加，开箱即用
+            // https://webpack.docschina.org/configuration/optimization/#optimization-usedexports
+            // config.optimization.usedExports(true);
+
+            const isEnvProdProfile = isEnvProd && process.argv.includes('--profile');
+
+            // minify-uglify-js
+            // https://github.com/webpack-contrib/terser-webpack-plugin
+            config.optimization.minimizer('js').use(require.resolve('terser-webpack-plugin'), [
+                {
+                    // Use multi-process parallel running to improve the build speed
+                    // Default number of concurrent runs: os.cpus().length - 1
+                    parallel: true,
+                    // Enable file caching
+                    cache: true,
+                    sourceMap: shouldUseSourceMap,
+                    // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+                    terserOptions: {
+                        parse: {
+                            // We want terser to parse ecma 8 code. However, we don't want it
+                            // to apply any minification steps that turns valid ecma 5 code
+                            // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                            // sections only apply transformations that are ecma 5 safe
+                            // https://github.com/facebook/create-react-app/pull/4234
+                            ecma: 8,
+                        },
+                        compress: {
+                            ecma: 5,
+                            warnings: false,
+                            // Disabled because of an issue with Uglify breaking seemingly valid code:
+                            // https://github.com/facebook/create-react-app/issues/2376
+                            // Pending further investigation:
+                            // https://github.com/mishoo/UglifyJS2/issues/2011
+                            comparisons: false,
+                            // Disabled because of an issue with Terser breaking valid code:
+                            // https://github.com/facebook/create-react-app/issues/5250
+                            // Pending further investigation:
+                            // https://github.com/terser-js/terser/issues/120
+                            inline: 2,
+                            drop_console: true,
+                        },
+                        mangle: {
+                            safari10: true,
+                        },
+                        // Added for profiling in devtools
+                        keep_classnames: isEnvProdProfile,
+                        keep_fnames: isEnvProdProfile,
+                        output: {
+                            ecma: 5,
+                            comments: false,
+                            // Turned on because emoji and regex is not minified properly using default
+                            // https://github.com/facebook/create-react-app/issues/2488
+                            ascii_only: true,
+                        },
+                    },
+                },
+            ]);
         }
     };
 };

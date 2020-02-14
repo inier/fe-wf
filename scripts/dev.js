@@ -18,13 +18,16 @@ module.exports = function(options) {
         .disableHostCheck(true)
         .publicPath(publicPath)
         .clientLogLevel('none')
+        .overlay(true)
         .open(true);
 
     if (typeof options.chainWebpack === 'function') {
         options.chainWebpack(config);
     }
 
+    console.log('webpack配置：', config.toConfig().module);
     const compiler = webpack(config.toConfig());
+
     // 拿到 devServer 参数
     const chainDevServer = compiler.options.devServer;
     const server = new WebpackDevServer(compiler, Object.assign(chainDevServer, {}));
@@ -37,14 +40,25 @@ module.exports = function(options) {
         });
     });
 
-    // 监听端口
-    server.listen(port);
+    const portFinder = require('portfinder');
+    portFinder.basePort = process.env.PORT || port;
+    portFinder.getPort((err, port) => {
+        if (err) {
+            reject(err);
+        } else {
+            // 在进程中存储下当前最新端口
+            process.env.PORT = port;
+
+            // 监听端口
+            server.listen(process.env.PORT);
+        }
+    });
 
     new Promise(() => {
         compiler.hooks.done.tap('dev', (stats) => {
             const empty = '    ';
             const common = `start running at:
-    - Local: http://127.0.0.1:${port}${publicPath}\n`;
+    - Local: http://127.0.0.1:${process.env.PORT}${publicPath}\n`;
             console.log(chalk.cyan(`\n${empty}${common}`));
         });
     });

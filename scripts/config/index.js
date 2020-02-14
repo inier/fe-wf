@@ -29,10 +29,10 @@ function aliasValue(alias) {
 
 // alias 默认值
 const defaultAlias = {
-    '@': 'src',
+    '@': 'src/',
 };
 
-module.exports = (config) => {
+module.exports = (options) => {
     const {
         devServer = {
             // 端口号
@@ -41,13 +41,15 @@ module.exports = (config) => {
         entry = '',
         dist = 'dist',
         publicPath = '/',
-        vendors = [],
+        libs = [],
         alias = defaultAlias,
         html = {},
         pages = false,
         style = {},
         dllCfg = {},
     } = userConfig;
+
+    const { isEnvProd, isEnvDev } = options;
     return {
         base: {
             // devServer配置
@@ -59,9 +61,14 @@ module.exports = (config) => {
             // 发布路径
             dist,
             // 第三方库分割，优先级按先后顺序
-            vendors,
+            libs,
             // alias
             alias: aliasValue(alias),
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.json'],
+            // 外部扩展
+            externals: {
+                // jquery: 'jQuery'
+            },
         },
         // html相关
         html: {
@@ -86,15 +93,27 @@ module.exports = (config) => {
             ...dllCfg,
         },
 
-        // 添加css-/postcss-/scss(sass)-/less-/stylus-loader的自定义options
+        // css 相关的处理
         style: {
-            // less设置
-            less: {
-                // 是否引入less-plugin-functions
-                lessFunction: style.less && style.less.lessFunction ? style.less.lessFunction : false,
-                // common less file 公共less文件,不用引入即可使用
-                // 不需要时设置为false
-                lessCommon: style.less && style.less.lessCommon ? _join(style.less.lessCommon) : false,
+            extract: style.extract || true, // 是否使用css分离插件 ExtractTextPlugin
+            sourceMap: style.sourceMap || isEnvDev, // 开启 CSS source maps
+            // 添加css-/postcss-/scss(sass)-/less-/stylus-loader的自定义options
+            loaderOptions: {
+                css: {}, // 这里的选项会传递给 css-loader
+                less: Object.assign(
+                    {
+                        // 是否引入less-plugin-functions
+                        lessFunction: false,
+                        // common less file 公共less文件,不用引入即可使用
+                        // 不需要时设置为false
+                        lessCommon: false,
+                    },
+                    style.loaderOptions || {}
+                ),
+                sass: {},
+                scss: {},
+                stylus: {},
+                postcss: {}, // 这里的选项会传递给 postcss-loader
             },
         },
         // ESModules
@@ -121,7 +140,8 @@ module.exports = (config) => {
         eslint: {
             open: false,
         },
-
+        // webpack配置
         chainWebpack(config) {},
+        configureWebpack(config) {},
     };
 };
