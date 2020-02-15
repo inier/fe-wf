@@ -99,8 +99,10 @@ module.exports = ({ config, resolve, options }) => {
                 ],
             };
 
+            createJSRule('ts', /\.tsx?$/, 'babel-loader', tsOptions);
+
             if (isVueEnabled) {
-                createJSRule('vts', /\.tsx?$/, 'ts-loader', tsVueOptions);
+                Object.keys(tsVueOptions).length && createJSRule('vts', /\.tsx?$/, 'ts-loader', tsVueOptions);
             }
             if (isReactEnabled) {
                 createJSRule('tsx', /\.tsx?$/, 'awesome-typescript-loader', {
@@ -108,8 +110,7 @@ module.exports = ({ config, resolve, options }) => {
                 });
             }
             if (!isVueEnabled && !isReactEnabled) {
-                createJSRule('ts', /\.tsx?$/, 'babel-loader', tsOptions);
-                createJSRule('ts', /\.tsx?$/, 'ts-loader');
+                createJSRule('ts', /\.ts$/, 'ts-loader');
             }
         }
 
