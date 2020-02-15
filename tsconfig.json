@@ -2,18 +2,23 @@
     "compilerOptions": {
         "baseUrl": ".",
         "outDir": "dist",
-        "sourceMap": false,
-        "target": "es5",
-        "module": "esnext",
+        "sourceMap": true,
+        "target": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "allowJs": true,
+        "noEmit": true,
+        "strict": true,
+        "isolatedModules": true,
         "noUnusedLocals": true,
-        "strictNullChecks": false,
-        "noImplicitAny": false,
         "noImplicitThis": false,
+        "noImplicitAny": false,
+        "strictNullChecks": false,
         "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
-        "esModuleInterop": false,
+        "esModuleInterop": true,
         "removeComments": false,
         "jsx": "react",
         "lib": ["esnext", "dom"],
@@ -25,5 +30,6 @@
         }
     },
     "include": ["src"],
-    "exclude": ["./node_modules"]
+    "exclude": ["node_modules"],
+    "files": ["./node_modules/tsx-control-statements/index.d.tsx"]
 }

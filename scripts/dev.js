@@ -25,8 +25,9 @@ module.exports = function(options) {
         options.chainWebpack(config);
     }
 
-    console.log('webpack配置：', config.toConfig().module);
-    const compiler = webpack(config.toConfig());
+    const webpackConfig = config.toConfig();
+    console.log('webpack配置：', webpackConfig.module);
+    const compiler = webpack(webpackConfig);
 
     // 拿到 devServer 参数
     const chainDevServer = compiler.options.devServer;

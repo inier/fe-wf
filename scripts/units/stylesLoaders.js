@@ -17,19 +17,20 @@ module.exports = ({ config, options }) => {
     const shouldUseSourceMap = map || sourceMap;
 
     function createCSSRule(lang, test, loader, CSSRuleOptions = {}) {
-        let testReg = test;
+        let baseRegex = test;
+        let moduleRegex = test;
+        let modulesRule = null;
 
-        const baseRegex = new RegExp(`^.*(?!\\.module)${test.source.slice(0)}`);
-        const moduleRegex = new RegExp(`^.*\\.module${test.source.slice(0)}`);
-        if (['css', 'sass', 'scss', 'less'].includes(lang)) {
-            testReg = moduleRegex;
+        if (['sass', 'scss'].includes(lang)) {
+            baseRegex = new RegExp(`^(?!.*\\.module).*${test.source.slice(0)}`);
+            moduleRegex = new RegExp(`\\.module${test.source.slice(0)}`);
+            const moduleRule = config.module.rule(`${lang}-module`).test(moduleRegex);
+            modulesRule = moduleRule.oneOf('modules').resourceQuery(/module/);
         }
+
         const baseRule = config.module.rule(lang).test(baseRegex);
-        const moduleRule = config.module.rule(`${lang}-module`).test(moduleRegex);
-
-        const modulesRule = moduleRule.oneOf('modules').resourceQuery(/module/);
-
         const normalRule = baseRule.oneOf('normal');
+
         function applyLoaders(rule, isModules) {
             if (isEnvDev) {
                 if (isVueEnabled) {
@@ -57,8 +58,8 @@ module.exports = ({ config, options }) => {
                             // 设置css-modules模式下local类名的命名规范
                             // getLocalIdent: getCSSModuleLocalIdent,
                             localIdentName: isEnvDev
-                                ? '[path]___[name]__[local]___[hash:base64:5]'
-                                : '[name]__[local]-[hash:base64]',
+                                ? '[path]_[name]_[local]-[hash:base64:5]'
+                                : '[name]_[local]-[hash:base64]',
                         },
                         sourceMap: shouldUseSourceMap,
                     });
@@ -136,7 +137,7 @@ module.exports = ({ config, options }) => {
             }
         }
 
-        applyLoaders(modulesRule, true);
+        // modulesRule && applyLoaders(modulesRule, true);
         applyLoaders(normalRule, false);
     }
 

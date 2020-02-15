@@ -36,13 +36,23 @@ module.exports = ({ config, resolve, options }) => {
     }
 
     return () => {
-        let babelOptions = { presets: ['@babel/preset-env'] };
-        let tsOptions = null;
+        let babelOptions = {
+            presets: ['@babel/preset-env'],
+            // https://babeljs.io/docs/en/plugins
+            plugins: [
+                'babel-plugin-macros',
+                '@babel/plugin-syntax-dynamic-import',
+                //https://babeljs.io/docs/en/babel-plugin-proposal-decorators
+                ['@babel/plugin-proposal-decorators', { legacy: true }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+            ],
+        };
+        let tsVueOptions = {};
 
         //test测试
         if (isEnvTest) {
-            babelOptions = {
-                presets: [
+            babelOptions.presets = [
+                [
                     '@babel/preset-env',
                     {
                         targets: {
@@ -50,32 +60,47 @@ module.exports = ({ config, resolve, options }) => {
                         },
                     },
                 ],
-            };
+            ];
+        }
+
+        // react
+        if (isReactEnabled) {
+            // https://www.babeljs.cn/docs/babel-preset-react
+            babelOptions.presets.push('@babel/preset-react');
         }
 
         // vue
-        if (isVueEnabled) {
+        if (options.name.includes('vue') && isVueEnabled) {
             babelOptions.presets.push('@vue/babel-preset-jsx');
 
             createJSRule('vue', /\.vue$/, 'vue-loader');
 
             config.plugin('vue').use(require('vue-loader/lib/plugin'));
 
-            tsOptions = {
+            tsVueOptions = {
                 appendTsSuffixTo: [/\.vue$/],
                 reportFiles: ['src/**/*.{ts,tsx}'],
             };
         }
 
-        // react
-        if (isReactEnabled) {
-            babelOptions.presets.push('@babel/preset-react');
-        }
-
         // ts
+        // https://www.babeljs.cn/docs/babel-preset-typescript
         if (isTypeScriptEnabled) {
+            const tsOptions = {
+                presets: [
+                    ...babelOptions.presets,
+                    [
+                        '@babel/preset-typescript',
+                        {
+                            isTSX: true,
+                            allExtensions: true,
+                        },
+                    ],
+                ],
+            };
+
             if (isVueEnabled) {
-                createJSRule('vts', /\.tsx?$/, 'ts-loader', tsOptions);
+                createJSRule('vts', /\.tsx?$/, 'ts-loader', tsVueOptions);
             }
             if (isReactEnabled) {
                 createJSRule('tsx', /\.tsx?$/, 'awesome-typescript-loader', {
@@ -83,7 +108,8 @@ module.exports = ({ config, resolve, options }) => {
                 });
             }
             if (!isVueEnabled && !isReactEnabled) {
-                createJSRule('ts', /\.ts$/, 'ts-loader');
+                createJSRule('ts', /\.tsx?$/, 'babel-loader', tsOptions);
+                createJSRule('ts', /\.tsx?$/, 'ts-loader');
             }
         }
 
@@ -91,7 +117,7 @@ module.exports = ({ config, resolve, options }) => {
             createJSRule('js', /\.js$/, 'source-map-loader', {}, [], 'pre');
         }
 
-        createJSRule('js', /\.(js|jsx)$/, 'babel-loader', babelOptions); // babelConfig
+        createJSRule('js', /\.jsx?$/, 'babel-loader', babelOptions); // babelConfig
 
         // split libs
         if (libs && libs.length && !useDll) {

@@ -7,7 +7,7 @@ module.exports = {
     // 公共地址，用于处理静态资源的引用问题，可以是相对路径或CDN等绝对地址
     publicPath: '/',
     // 需要单独打包的三方库集合
-    libs: ['react', 'vue'],
+    libs: ['react', 'react-dom'],
     pages: {
         index: {
             entry: 'src/index.js',
@@ -22,6 +22,11 @@ module.exports = {
         },
         react: {
             entry: 'src/react.js',
+            template: 'public/index.html',
+            filename: 'index.html',
+        },
+        reactTS: {
+            entry: 'src/react.tsx',
             template: 'public/index.html',
             filename: 'index.html',
         },

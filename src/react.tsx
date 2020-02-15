@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import styles from './style/index.module.scss';
+// import './style/index.module.scss';
 import './style/react.scss';
 
-class Square extends React.Component {
+interface IMyComponentState {
+    value: string;
+}
+interface IMyComponentProps {}
+
+class Square extends React.Component<IMyComponentProps, IMyComponentState> {
     constructor(props) {
         super(props);
         this.state = {
-            value: null,
+            value: undefined,
         };
     }
 

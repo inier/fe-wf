@@ -11,7 +11,6 @@ module.exports = {
                 exclude: ['transform-typeof-symbol'],
             },
         ],
-        // https://www.babeljs.cn/docs/babel-preset-react
         [
             '@babel/preset-react',
             {
@@ -20,18 +19,7 @@ module.exports = {
                 useBuiltIns: true,
             },
         ],
-        // https://github.com/vuejs/jsx/tree/dev/packages/babel-preset-jsx
-        '@vue/babel-preset-jsx',
-        // 配置 ts
-        // https://www.babeljs.cn/docs/babel-preset-typescript
-        // [
-        //     '@babel/preset-typescript',
-        //     {
-        //         allExtensions: true,
-        //     },
-        // ],
     ],
-    // https://babeljs.io/docs/en/plugins
     plugins: [
         [
             'import',
@@ -42,18 +30,8 @@ module.exports = {
             },
             'lodash',
         ],
-        // '@babel/plugin-syntax-dynamic-import',
-        //https://babeljs.io/docs/en/babel-plugin-proposal-decorators
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        [
-            '@babel/plugin-proposal-class-properties',
-            {
-                loose: true,
-            },
-        ],
-        'babel-plugin-macros',
-        // '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-numeric-separator',
-        '@babel/plugin-proposal-object-rest-spread',
+        // https://github.com/AlexGilleran/jsx-control-statements
+        'jsx-control-statements',
     ],
 };

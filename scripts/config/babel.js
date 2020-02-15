@@ -70,9 +70,7 @@ module.exports = (options) => {
                 },
             ],
             'babel-plugin-macros',
-            '@babel/plugin-transform-typescript',
             '@babel/plugin-proposal-numeric-separator',
-            '@babel/plugin-proposal-object-rest-spread',
         ]),
     };
 };
