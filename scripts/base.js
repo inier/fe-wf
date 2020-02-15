@@ -16,7 +16,7 @@ module.exports = (options) => {
         return map.set(name, require(_)({ config, resolve: joinPathCWD, options }));
     });
 
-    map.forEach((v) => v());
+    map.forEach(async (v) => await v());
 
     return config;
 };

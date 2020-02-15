@@ -18,15 +18,15 @@ module.exports = ({ config, options }) => {
 
     function createCSSRule(lang, test, loader, CSSRuleOptions = {}) {
         let baseRegex = test;
-        let moduleRegex = test;
-        let modulesRule = null;
+        // let moduleRegex = test;
+        // let modulesRule = null;
 
-        if (['sass', 'scss'].includes(lang)) {
-            baseRegex = new RegExp(`^(?!.*\\.module).*${test.source.slice(0)}`);
-            moduleRegex = new RegExp(`\\.module${test.source.slice(0)}`);
-            const moduleRule = config.module.rule(`${lang}-module`).test(moduleRegex);
-            modulesRule = moduleRule.oneOf('modules').resourceQuery(/module/);
-        }
+        // if (['sass', 'scss'].includes(lang)) {
+        //     baseRegex = new RegExp(`^(?!.*\\.module).*${test.source.slice(0)}`);
+        //     moduleRegex = new RegExp(`\\.module${test.source.slice(0)}`);
+        //     const moduleRule = config.module.rule(`${lang}-module`).test(moduleRegex);
+        //     modulesRule = moduleRule.oneOf('modules').resourceQuery(/module/);
+        // }
 
         const baseRule = config.module.rule(lang).test(baseRegex);
         const normalRule = baseRule.oneOf('normal');

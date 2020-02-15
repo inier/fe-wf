@@ -26,7 +26,7 @@ module.exports = function(options) {
     }
 
     const webpackConfig = config.toConfig();
-    console.log('webpack配置：', webpackConfig.module);
+    // console.log('webpack配置：', webpackConfig.module);
     const compiler = webpack(webpackConfig);
 
     // 拿到 devServer 参数

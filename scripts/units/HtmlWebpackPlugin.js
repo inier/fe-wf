@@ -3,7 +3,7 @@
 module.exports = ({ config, resolve, options }) => {
     const { name = 'index', pages = {}, html = {}, publicPath } = options;
 
-    return () => {
+    return async () => {
         // html生成
         // https://webpack.docschina.org/plugins/html-webpack-plugin/
         // https://github.com/jantimon/html-webpack-plugin
@@ -63,7 +63,8 @@ module.exports = ({ config, resolve, options }) => {
 
         // 将dll打包后的js文件注入到生成的 html 中
         if (options.dll) {
-            const { entry: dllEntry, output: dllPath } = options.dllCfg || {};
+            const { entry, output: dllPath } = options.dllCfg || {};
+            const dllEntry = options.name || entry;
 
             if (options.sep) {
                 // https://github.com/SimenB/add-asset-html-webpack-plugin
@@ -82,14 +83,14 @@ module.exports = ({ config, resolve, options }) => {
                 // 复制文件
                 // https://webpack.docschina.org/plugins/copy-webpack-plugin/
                 const CopyPlugin = require('copy-webpack-plugin');
-                config
+                await config
                     .plugin('CopyPlugin')
                     .use(CopyPlugin, [[{ from: resolve(dllPath), to: resolve(options.dist, dllPath) }]]);
 
                 // https://github.com/jharris4/html-webpack-tags-plugin
                 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 
-                config.plugin('HtmlWebpackTagsPlugin').use(HtmlWebpackTagsPlugin, [
+                await config.plugin('HtmlWebpackTagsPlugin').use(HtmlWebpackTagsPlugin, [
                     {
                         tags: [
                             {

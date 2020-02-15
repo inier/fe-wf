@@ -9,7 +9,6 @@ module.exports = async function(options) {
     const Config = require('webpack-chain');
     const { joinPathCWD, rm } = require('../lib');
     const config = new Config();
-
     const { entry, output } = options.dllCfg || {};
     const dllPath = joinPathCWD(output);
 
@@ -49,11 +48,12 @@ module.exports = async function(options) {
     rimraf.sync(dllPath);
 
     const spinner = ora('开始构建 dll...');
-    spinner.start();
+    await spinner.start();
 
-    console.log('webpack配置：', config.toConfig());
+    const webpackConfig = config.toConfig();
+    // console.log('webpack配置：', webpackConfig);
 
-    await webpack(config.toConfig(), function(err, stats) {
+    await webpack(webpackConfig, function(err, stats) {
         spinner.stop();
 
         if (err) {

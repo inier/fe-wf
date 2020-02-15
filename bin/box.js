@@ -14,7 +14,7 @@ let boxConf = {};
 
 // 整合config
 try {
-    process.env.NODE_ENV = 'development';
+    process.env.NODE_ENV === 'production';
     Object.assign(boxConf, {
         // package.json
         appPackageJson: packageConfig,
@@ -76,7 +76,11 @@ program
     .option('-p, --spa', '多页面开发中采用SPA单页打包,代码会输出到根目录(默认会生成name命名的目录)')
     .action(async (name, cmd) => {
         const options = cleanArgs(cmd);
-        const args = Object.assign(options, { name, isMultiPages: isMultiPages(name, boxConf, options) }, boxConf);
+        const args = Object.assign(
+            options,
+            { cmd: cmd._name, name, isMultiPages: isMultiPages(name, boxConf, options) },
+            boxConf
+        );
 
         if (lock) {
             return;
@@ -119,7 +123,11 @@ program
     .option('-p, --spa', '多页面开发中采用SPA单页打包,代码会输出到根目录(默认会生成name命名的目录)')
     .action(async (name, cmd) => {
         const options = cleanArgs(cmd);
-        const args = Object.assign(options, { name, isMultiPages: isMultiPages(name, boxConf, options) }, boxConf);
+        const args = Object.assign(
+            options,
+            { cmd: cmd._name, name, isMultiPages: isMultiPages(name, boxConf, options) },
+            boxConf
+        );
 
         if (lock) {
             return;
@@ -160,7 +168,7 @@ program
     .option('-r, --report', '打包分析报告')
     .action(async (name, cmd) => {
         const options = cleanArgs(cmd);
-        const args = Object.assign(options, { name }, boxConf);
+        const args = Object.assign(options, { cmd: cmd._name, name }, boxConf);
 
         if (lock) {
             return;
