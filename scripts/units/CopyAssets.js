@@ -2,7 +2,7 @@
 
 module.exports = ({ config, resolve, options }) => {
     // const CopyWebpackPlugin = require('copy-webpack-plugin');
-    const CopyWebpackPlugin = require(resolve('scripts/utils/webapck-plugin-copy'));
+    const CopyWebpackPlugin = require(resolve('lib/webapck-plugin-copy'));
 
     return () => {
         // const copyAssetsOptions = {
