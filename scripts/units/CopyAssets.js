@@ -1,15 +1,17 @@
 // copy assets file(s)
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = ({ config, resolve, options }) => {
-    return async () => {
+    // const CopyWebpackPlugin = require('copy-webpack-plugin');
+    const CopyWebpackPlugin = require(resolve('scripts/utils/webapck-plugin-copy'));
+
+    return () => {
         // const copyAssetsOptions = {
-        //     from: resolve('src/static/'),
-        //     to: resolve(options.dist, 'static'),
-        //     toType: 'dir',
-        //     ignore: ['*.md'],
+        //     from: 'src/static',
+        //     to: options.name ? `dist/${options.name}/statics` : 'dist/statics',
+        //     // toType: 'dir',
+        //     // ignore: ['*.md'],
         // };
 
-        // await config.plugin('copy').use(CopyWebpackPlugin, [[copyAssetsOptions]]);
+        // config.plugin('copy').use(CopyWebpackPlugin, [copyAssetsOptions]);
     };
 };
