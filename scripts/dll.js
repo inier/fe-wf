@@ -16,6 +16,9 @@ module.exports = async function(options) {
         const BundleAnalyzerPlugin = require('./units/BundleAnalyzerPlugin')({ config, options });
         BundleAnalyzerPlugin();
     }
+    if (options.dll && !Array.isArray(options.libs)) {
+        throw console.log('请添加 dll.entry');
+    }
 
     options.libs.forEach((item) => {
         config
@@ -47,7 +50,7 @@ module.exports = async function(options) {
     // 删除dll目录
     rimraf.sync(dllPath);
 
-    const spinner = ora('开始构建 dll...');
+    const spinner = ora('开始 DLL 构建...');
     await spinner.start();
 
     const webpackConfig = config.toConfig();
@@ -71,10 +74,10 @@ module.exports = async function(options) {
         );
 
         if (stats.hasErrors()) {
-            console.log(chalk.red('构建失败\n'));
+            console.log(chalk.red('DLL 构建失败\n'));
             process.exit(1);
         }
 
-        console.log(chalk.cyan('dll 构建完成\n'));
+        console.log(chalk.cyan('DLL 构建完成\n'));
     });
 };

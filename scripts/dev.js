@@ -28,7 +28,6 @@ module.exports = function(options) {
     const webpackConfig = config.toConfig();
     // console.log('webpack配置：', webpackConfig.module);
     const compiler = webpack(webpackConfig);
-
     // 拿到 devServer 参数
     const chainDevServer = compiler.options.devServer;
     const server = new WebpackDevServer(compiler, Object.assign(chainDevServer, {}));
@@ -41,6 +40,7 @@ module.exports = function(options) {
         });
     });
 
+    // 端口被占用的处理
     const portFinder = require('portfinder');
     portFinder.basePort = process.env.PORT || port;
     portFinder.getPort((err, port) => {

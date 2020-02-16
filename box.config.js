@@ -3,6 +3,7 @@
 module.exports = {
     // SPA项目的入口，多页面项目入口通过pages单独配置
     entry: 'src/index.js',
+    // 出口
     dist: 'dist',
     // 公共地址，用于处理静态资源的引用问题，可以是相对路径或CDN等绝对地址
     publicPath: '/',

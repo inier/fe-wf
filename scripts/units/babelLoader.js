@@ -4,7 +4,6 @@
 
 module.exports = ({ config, resolve, options }) => {
     const babelConfig = require(resolve('scripts/config/babel.js'))(options);
-
     const {
         isVueEnabled,
         isReactEnabled,
@@ -16,37 +15,19 @@ module.exports = ({ config, resolve, options }) => {
         dll: useDll,
     } = options;
 
-    // js/jsx & tsx & vue Rule
-    function createJSRule(lang, test, loader, options = {}, exclude = [], enforce) {
-        const baseRule = config.module.rule(lang).test(test);
-
-        baseRule.include
-            .add(resolve('src'))
-            .add(resolve('test'))
-            .end()
-            .exclude.add(/node_modules/)
-            .end()
-            .use(loader)
-            .loader(loader)
-            .options(options);
-
-        if (enforce) {
-            baseRule.enforce(enforce);
-        }
-    }
+    let babelOptions = {
+        presets: ['@babel/preset-env'],
+        // https://babeljs.io/docs/en/plugins
+        plugins: [
+            'babel-plugin-macros',
+            '@babel/plugin-syntax-dynamic-import',
+            //https://babeljs.io/docs/en/babel-plugin-proposal-decorators
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ],
+    };
 
     return () => {
-        let babelOptions = {
-            presets: ['@babel/preset-env'],
-            // https://babeljs.io/docs/en/plugins
-            plugins: [
-                'babel-plugin-macros',
-                '@babel/plugin-syntax-dynamic-import',
-                //https://babeljs.io/docs/en/babel-plugin-proposal-decorators
-                ['@babel/plugin-proposal-decorators', { legacy: true }],
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
-            ],
-        };
         let tsVueOptions = {};
 
         //test测试
@@ -70,7 +51,7 @@ module.exports = ({ config, resolve, options }) => {
         }
 
         // vue
-        if (options.name.includes('vue') && isVueEnabled) {
+        if (options.name && options.name.includes('vue') && isVueEnabled) {
             babelOptions.presets.push('@vue/babel-preset-jsx');
 
             createJSRule('vue', /\.vue$/, 'vue-loader');
@@ -149,12 +130,6 @@ module.exports = ({ config, resolve, options }) => {
             });
         }
 
-        // 分离 runtimeChunk
-        // https://webpack.docschina.org/configuration/optimization/#optimization-runtimechunk
-        config.optimization.runtimeChunk({
-            name: 'runtime', // runtime.[hash].js
-        });
-
         if (isEnvProd) {
             // Tree Shaking
             // 如何使用tree-shaking？
@@ -166,6 +141,12 @@ module.exports = ({ config, resolve, options }) => {
             // webpack4 在生产环境已经默认添加，开箱即用
             // https://webpack.docschina.org/configuration/optimization/#optimization-usedexports
             // config.optimization.usedExports(true);
+
+            // 分离 runtimeChunk
+            // https://webpack.docschina.org/configuration/optimization/#optimization-runtimechunk
+            config.optimization.runtimeChunk({
+                name: 'runtime', // runtime.[hash].js
+            });
 
             const isEnvProdProfile = isEnvProd && process.argv.includes('--profile');
 
@@ -222,4 +203,23 @@ module.exports = ({ config, resolve, options }) => {
             ]);
         }
     };
+
+    // js/jsx & tsx & vue Rule
+    function createJSRule(lang, test, loader, options = {}, exclude = [], enforce) {
+        const baseRule = config.module.rule(lang).test(test);
+
+        baseRule.include
+            .add(resolve('src'))
+            .add(resolve('test'))
+            .end()
+            .exclude.add(/node_modules/)
+            .end()
+            .use(loader)
+            .loader(loader)
+            .options(options);
+
+        if (enforce) {
+            baseRule.enforce(enforce);
+        }
+    }
 };

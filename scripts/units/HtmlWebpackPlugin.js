@@ -8,13 +8,12 @@ module.exports = ({ config, resolve, options }) => {
         // https://webpack.docschina.org/plugins/html-webpack-plugin/
         // https://github.com/jantimon/html-webpack-plugin
         const HtmlWebpackPlugin = require('html-webpack-plugin');
-        const { joinPathCWD } = require('../../lib');
         const { rootId, title: defaultTitle, favicon, template: defaultTemplate } = html;
 
         // 默认模板配置
         const htmlOption = {
             appMountId: rootId,
-            favicon: joinPathCWD(favicon),
+            favicon: resolve(favicon),
             title: defaultTitle,
             filename: `${name}.html`,
             template: defaultTemplate,
@@ -39,7 +38,7 @@ module.exports = ({ config, resolve, options }) => {
                 template = defaultTemplate,
                 publicPath = '',
                 ...restOptions
-            } = pages[name];
+            } = pages[name] || {};
 
             Object.assign(
                 htmlOption,
@@ -53,7 +52,7 @@ module.exports = ({ config, resolve, options }) => {
                     // 可以通过 filename 参数指定输出的文件名
                     // html-webpack-plugin 也可以不指定 template 参数，它会使用默认的 html 模板。
                     // https://github.com/jaketrent/html-webpack-template
-                    template: template ? joinPathCWD(template) : require('html-webpack-template'),
+                    template: template ? resolve(template) : require('html-webpack-template'),
                 },
                 restOptions
             );

@@ -3,12 +3,13 @@
         "baseUrl": ".",
         "outDir": "dist",
         "sourceMap": true,
-        "target": "es6",
-        "module": "commonjs",
+        "target": "es5",
+        "module": "esnext",
         "moduleResolution": "node",
         "allowJs": true,
         "noEmit": true,
         "strict": true,
+        "pretty": true,
         "isolatedModules": true,
         "noUnusedLocals": true,
         "noImplicitThis": false,
@@ -24,7 +25,6 @@
         "lib": ["esnext", "dom"],
         "types": ["node"],
         "rootDir": ".",
-        "pretty": true,
         "paths": {
             "@src": ["src"]
         }

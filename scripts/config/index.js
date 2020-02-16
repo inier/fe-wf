@@ -88,7 +88,7 @@ module.exports = (options) => {
         // dll打包相关
         dllCfg: {
             // dll动态链接库名称
-            entry: 'vendor',
+            entry: 'vendors',
             output: 'dll',
             ...dllCfg,
         },
