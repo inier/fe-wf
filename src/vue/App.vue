@@ -20,4 +20,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.test {
+  color: #fff;
+}
+</style>

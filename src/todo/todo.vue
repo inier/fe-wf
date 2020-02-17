@@ -85,11 +85,11 @@ export default {
     width 100%
     font-size 24px
     font-family inherit
-    font-weight inherit 
+    font-weight inherit
     line-height 1.4em
     border none
-    outline none 
-    color inherit 
+    outline none
+    color inherit
     box-sizing border-box
     font-smoothing antialiased
     padding 16px 16px 16px 36px
