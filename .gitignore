@@ -12,6 +12,7 @@ node_modules/
 /build
 /dist
 /dll
+/static
 /vscode
 /es/
 !components/**/__tests__/*.js
