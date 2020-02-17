@@ -11,7 +11,6 @@ module.exports = ({ config, resolve, options }) => {
         map: shouldUseSourceMap,
         appPackageJson,
         isMultiPages,
-        alias = {},
         externals = {},
         extensions = [],
     } = options;
@@ -69,12 +68,6 @@ module.exports = ({ config, resolve, options }) => {
 
         // externals
         Object.keys(externals).length && config.externals(externals);
-
-        // alias
-        Object.keys(alias).forEach((key) => {
-            let path = key.includes('/') ? alias[key] + '/' : alias[key];
-            config.resolve.alias.set(key, path);
-        });
 
         // extensions
         extensions.map((item) => {

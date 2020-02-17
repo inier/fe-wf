@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        "outDir": "dist",
         "sourceMap": true,
         "target": "es5",
         "module": "esnext",
@@ -24,9 +22,12 @@
         "jsx": "react",
         "lib": ["esnext", "dom"],
         "types": ["node"],
+        "outDir": "dist",
+        "baseUrl": ".",
         "rootDir": ".",
         "paths": {
-            "@src": ["src"]
+            "@/*": ["src/*"],
+            "@src/*": ["src/*"]
         }
     },
     "include": ["src"],

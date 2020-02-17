@@ -138,7 +138,15 @@ module.exports = (options) => {
 
         // eslint options
         eslint: {
-            ...userConfig.vue,
+            ...userConfig.eslint,
+        },
+        // tslint options
+        tslint: {
+            ...userConfig.tslint,
+        },
+        // stylelint options
+        stylelint: {
+            ...userConfig.stylelint,
         },
         // webpack配置
         chainWebpack(config) {},

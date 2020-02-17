@@ -9,6 +9,25 @@ module.exports = {
     publicPath: '/',
     // 需要单独打包的三方库集合
     libs: ['react', 'react-dom', 'vue'],
+    alias: {
+        '@': 'src',
+        '@src': 'src',
+    },
+    eslint: {
+        lintOnSave: true, // 开启运行时检测
+        extensions: ['js', 'jsx', 'vue'], // 默认 ['js', 'jsx']
+    },
+    tslint: {
+        lintOnSave: true, // 开启运行时检测
+        useThreads: true,
+    },
+    stylelint: {
+        lintOnSave: true, // 开启运行时检测
+        // extensions: ['vue', 'htm', 'html', 'css', 'sss', 'less', 'scss']
+    },
+    typescript: true,
+    react: true,
+    vue: true,
     pages: {
         index: {
             entry: 'src/index.js',
@@ -37,11 +56,4 @@ module.exports = {
             filename: 'index.html',
         },
     },
-    eslint: {
-        lintOnSave: true, // 开启运行时检测
-        extensions: ['js', 'jsx', 'vue'], // 默认 ['js', 'jsx']
-    },
-    typescript: true,
-    react: true,
-    vue: true,
 };
