@@ -138,7 +138,7 @@ module.exports = (options) => {
 
         // eslint options
         eslint: {
-            open: false,
+            ...userConfig.vue,
         },
         // webpack配置
         chainWebpack(config) {},

@@ -37,6 +37,10 @@ module.exports = {
             filename: 'index.html',
         },
     },
+    eslint: {
+        lintOnSave: true, // 开启运行时检测
+        extensions: ['js', 'jsx', 'vue'], // 默认 ['js', 'jsx']
+    },
     typescript: true,
     react: true,
     vue: true,

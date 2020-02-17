@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import App from './todo.vue';
+import Vue from 'vue'
+import App from './todo.vue'
 
-import './style/index.css';
-import './assets/styles/style.styl';
-import './assets/styles/global.styl';
+import './style/index.css'
+import './assets/styles/style.styl'
+import './assets/styles/global.styl'
 
-const root = document.createElement('div');
-document.body.appendChild(root);
+const root = document.createElement('div')
+document.body.appendChild(root)
 
 new Vue({
-    render: (h) => h(App),
-}).$mount(root);
+  render: (h) => h(App)
+}).$mount(root)

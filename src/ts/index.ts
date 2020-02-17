@@ -3,6 +3,6 @@ export default class A {
     public a: string;
     // 构造函数
     constructor(a: string) {
-        this.a = a;
+      this.a = a
     }
 }

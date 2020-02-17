@@ -80,7 +80,7 @@ module.exports = ({ config, resolve, options }) => {
                 ],
             };
 
-            createJSRule('ts', /\.tsx?$/, 'babel-loader', tsOptions);
+            createJSRule('bts', /\.tsx?$/, 'babel-loader', tsOptions);
 
             if (isVueEnabled) {
                 Object.keys(tsVueOptions).length && createJSRule('vts', /\.tsx?$/, 'ts-loader', tsVueOptions);
@@ -96,7 +96,7 @@ module.exports = ({ config, resolve, options }) => {
         }
 
         if (!isVueEnabled && isReactEnabled && isTypeScriptEnabled) {
-            createJSRule('js', /\.js$/, 'source-map-loader', {}, [], 'pre');
+            createJSRule('sjs', /\.js$/, 'source-map-loader', {}, [], 'pre');
         }
 
         createJSRule('js', /\.jsx?$/, 'babel-loader', babelOptions); // babelConfig

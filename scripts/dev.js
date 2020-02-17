@@ -51,16 +51,15 @@ module.exports = function(options) {
             process.env.PORT = port;
 
             // 监听端口
-            server.listen(process.env.PORT);
+            server.listen(port);
         }
-    });
-
-    new Promise(() => {
-        compiler.hooks.done.tap('dev', (stats) => {
-            const empty = '    ';
-            const common = `start running at:
-    - Local: http://127.0.0.1:${process.env.PORT}${publicPath}\n`;
-            console.log(chalk.cyan(`\n${empty}${common}`));
+        new Promise(() => {
+            compiler.hooks.done.tap('dev', (stats) => {
+                const empty = '    ';
+                const common = `start running at:
+        - Local: http://127.0.0.1:${port}${publicPath}\n`;
+                console.log(chalk.cyan(`\n${empty}${common}`));
+            });
         });
     });
 };
