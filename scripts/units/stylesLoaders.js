@@ -1,4 +1,4 @@
-// 配置样式，style，css、less、sass、postcss 等
+// [配置样式，style，css、less、sass、postcss 等]
 // https://webpack.docschina.org/loaders/style-loader/
 // https://webpack.docschina.org/loaders/css-loader/
 // https://webpack.docschina.org/loaders/sass-loader/

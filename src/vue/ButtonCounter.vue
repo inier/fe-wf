@@ -16,6 +16,6 @@ export default {
 
 <style>
 .test {
-  color: #fff;
+    color: #fff;
 }
 </style>

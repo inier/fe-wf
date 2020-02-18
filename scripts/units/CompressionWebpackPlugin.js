@@ -1,4 +1,4 @@
-// gzip压缩配置
+// [开启gzip]
 // https://webpack.docschina.org/plugins/compression-webpack-plugin/
 // https://github.com/webpack-contrib/compression-webpack-plugin
 

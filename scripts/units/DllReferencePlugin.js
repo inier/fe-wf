@@ -1,4 +1,4 @@
-// DllReferencePlugin 链接 动态链接库 到入口bundle中
+// [DllReferencePlugin 配置] 链接 动态链接库 到入口bundle中
 // https://webpack.docschina.org/plugins/dll-plugin/#dllreferenceplugin
 
 const webpack = require('webpack');

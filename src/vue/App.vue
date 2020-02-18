@@ -1,27 +1,45 @@
 <template>
-    <div class="test">
-        <h2>{{ message }}</h2>
-        <div>
-            <router-link to="/">首页</router-link>
-            <router-link to="/component">组件</router-link>
-        </div>
-        <router-view></router-view>
+    <div id="app">
+        <Header></Header>
+        <Todo></Todo>
+        <Test></Test>
+        <Footer></Footer>
     </div>
 </template>
 
-<script type="text/jsx">
+<script>
+import Header from './todo/header.vue';
+import Footer from './todo/footer.jsx';
+import Todo from './todo/todo.vue';
+import Test from './test.vue';
+
 export default {
-    name: 'App',
-    data() {
-        return {
-            message: 'App Entry!',
-        };
+    components: {
+        Header,
+        Footer,
+        Todo,
+        Test,
     },
 };
 </script>
 
-<style>
-.test {
-  color: #fff;
+<style lang="scss" scoped>
+#app {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    #cover {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #999;
+        opacity: 0.2;
+        z-index: -1;
+    }
 }
 </style>

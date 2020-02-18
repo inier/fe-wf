@@ -1,3 +1,4 @@
+// [ManifestPlugin] demo
 // Generate an asset manifest file with the following content:
 // - "files" key: Mapping of all asset filenames to their corresponding
 //   output file so that tools can pick it up without having to parse
@@ -21,7 +22,6 @@ module.exports = ({ config, resolve, options }) => {
         //                 seed
         //             );
         //             const entryPointsFiles = entryPoints.main.filter((fileName) => !fileName.endsWith('.map'));
-
         //             return {
         //                 files: manifestFiles,
         //                 entryPoints: entryPointsFiles,

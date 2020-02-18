@@ -1,4 +1,4 @@
-module.exports = function(injectCommand, api) {
+module.exports = function({ injectCommand, api }) {
     injectCommand(function({ program, boxConfig, start, cleanArgs }) {
         program
             .command('lint [type]')

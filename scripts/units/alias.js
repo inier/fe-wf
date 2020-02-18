@@ -1,4 +1,5 @@
 // [别名配置]
+
 module.exports = ({ config, resolve, options }) => {
     const fs = require('fs');
     const { alias } = options;

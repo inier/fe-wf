@@ -1,4 +1,4 @@
-// 基础配置
+// [基础配置]
 
 module.exports = ({ config, resolve, options }) => {
     const {

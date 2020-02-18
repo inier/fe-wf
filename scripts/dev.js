@@ -18,7 +18,7 @@ module.exports = function(options) {
         .disableHostCheck(true)
         .publicPath(publicPath)
         .clientLogLevel('none')
-        // .overlay(true)
+        .overlay(true)
         .open(true);
 
     if (typeof options.chainWebpack === 'function') {

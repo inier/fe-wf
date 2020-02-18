@@ -1,4 +1,4 @@
-module.exports = function(injectCommand) {
+module.exports = function({ injectCommand }) {
     injectCommand(function({ program, boxConfig, cleanArgs, start, setEnv, isMultiPages }) {
         program
             .command('ssr_server [pageName]')

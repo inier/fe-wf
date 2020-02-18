@@ -1,4 +1,4 @@
-// 静态资源处理
+// [静态资源处理]
 
 module.exports = ({ config }) => {
     return () => {

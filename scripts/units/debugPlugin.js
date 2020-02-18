@@ -1,5 +1,6 @@
-// 移动端进行调试
+// [移动端进行调试]
 // https://github.com/diamont1001/vconsole-webpack-plugin
+
 const vConsolePlugin = require('vconsole-webpack-plugin');
 
 module.exports = ({ config, options }) => {

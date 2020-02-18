@@ -1,4 +1,4 @@
-// 自动生成HTML
+// [html-webpack-plugin 生成html]
 
 module.exports = ({ config, resolve, options }) => {
     const { name = 'index', pages = {}, html = {}, publicPath } = options;

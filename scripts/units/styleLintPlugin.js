@@ -1,3 +1,5 @@
+// [stylelint 配置]
+
 module.exports = ({ config, options: { stylelint: { lintOnSave = false, extensions } = {} }, api }) => {
     const StyleLintPlugin = require('stylelint-webpack-plugin');
     const CodeframeFormatter = require('stylelint-codeframe-formatter');

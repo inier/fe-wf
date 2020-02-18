@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './todo.vue'
+import App from './vue/App.vue'
 
 import './style/index.css'
 import './assets/styles/style.styl'

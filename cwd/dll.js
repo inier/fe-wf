@@ -1,4 +1,4 @@
-module.exports = function(injectCommand) {
+module.exports = function({ injectCommand }) {
     injectCommand(function({ program, boxConfig, cleanArgs, start }) {
         program
             .command('dll [pageName]')

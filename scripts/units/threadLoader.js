@@ -1,4 +1,4 @@
-// 并发执行加速构建
+// [多线程配置 并发执行加速构建]
 // https://webpack.docschina.org/loaders/thread-loader/
 
 module.exports = ({ config }) => {

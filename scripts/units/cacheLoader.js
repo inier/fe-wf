@@ -1,8 +1,11 @@
-// 打包文件缓存
-// https://webpack.docschina.org/loaders/cache-loader/
-// https://github.com/webpack-contrib/cache-loader
+// [cache-loader 配置（webpack 5 弃用）]
+/**
+ * https://webpack.docschina.org/loaders/cache-loader/
+ * https://github.com/webpack-contrib/cache-loader
+ * webpack 5 使用了持久性缓存，与 babel-loader 类似，不再需要此 loader
+ */
 
-module.exports = ({config, resolve}) => {
+module.exports = ({ config, resolve }) => {
     const baseRule = config.module.rule('js').test(/.js|.tsx?$/);
     return () => {
         baseRule.exclude

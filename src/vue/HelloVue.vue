@@ -20,7 +20,7 @@ export default {
 
 <style>
 .hello-vue {
-  color: red;
-  font-size: 28px;
+    color: red;
+    font-size: 28px;
 }
 </style>

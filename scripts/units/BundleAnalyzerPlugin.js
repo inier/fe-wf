@@ -1,4 +1,4 @@
-// 打包体积分析
+// [打包分析]
 // https://github.com/webpack-contrib/webpack-bundle-analyzer
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');

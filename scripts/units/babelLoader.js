@@ -1,4 +1,4 @@
-// 配置 babel-loader
+// [babel-loader 配置]
 // https://webpack.docschina.org/loaders/babel-loader/
 // https://github.com/babel/babel-loader
 
