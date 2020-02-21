@@ -1,7 +1,6 @@
 <template>
     <div class="hello-vue">
-        <h1>Hello Vue</h1>
-        <p>{{ message }}</p>
+        <h1>{{ message }}</h1>
         <input v-model="message" />
     </div>
 </template>
@@ -12,15 +11,23 @@ export default {
     name: 'HelloVue',
     data() {
         return {
-            message: 'Vue, ok!',
+            message: 'Hello Vue!',
         };
     },
 };
 </script>
 
-<style>
+<style lang="scss">
 .hello-vue {
     color: red;
-    font-size: 28px;
+    font-size: 16px;
+
+    h1 {
+        margin-top: 0;
+    }
+
+    input {
+        height: 35px;
+    }
 }
 </style>

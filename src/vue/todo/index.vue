@@ -1,14 +1,26 @@
 <template>
-    <section class="real-app">
-        <input type="text" class="add-input" autofocus="autofocus" placeholder="接下来做什么" @keyup.enter="addTodo" />
-        <Item v-for="todo in filterTodos" :todo="todo" :key="todo.id" @del="deleteTodo" />
-        <Tabs :filter="filter" :todos="todos" @toggle="toggleFilter" @clearAll="clearAllCompletedTodo" />
-    </section>
+    <div>
+        <Header></Header>
+        <section class="real-app">
+            <input
+                type="text"
+                class="add-input"
+                autofocus="autofocus"
+                placeholder="接下来做什么"
+                @keyup.enter="addTodo"
+            />
+            <Item v-for="todo in filterTodos" :todo="todo" :key="todo.id" @del="deleteTodo" />
+            <Tabs :filter="filter" :todos="todos" @toggle="toggleFilter" @clearAll="clearAllCompletedTodo" />
+        </section>
+        <Footer></Footer>
+    </div>
 </template>
 
 <script>
 import Item from './item.vue';
 import Tabs from './tabs.vue';
+import Header from './header.vue';
+import Footer from './footer.jsx';
 import { constants } from 'crypto';
 
 let id = 0;
@@ -23,6 +35,8 @@ export default {
     components: {
         Item,
         Tabs,
+        Header,
+        Footer,
     },
     computed: {
         filterTodos() {

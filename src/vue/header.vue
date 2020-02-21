@@ -1,6 +1,6 @@
 <template>
     <header class="main-header">
-        <h1>Todo</h1>
+        <h1>Vue Demo</h1>
     </header>
 </template>
 
@@ -9,10 +9,10 @@
     text-align: center;
 
     h1 {
-        font-size: 50px;
-        color: #333;
+        font-size: 80px;
+        color: rgba(175, 47, 47, 0.4);
         font-weight: 400;
-        margin: 0 0 20px;
+        margin: 20px;
     }
 }
 </style>

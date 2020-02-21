@@ -1,13 +1,16 @@
-import Vue from 'vue'
-import App from './vue/App.vue'
+import Vue from 'vue';
+import App from './vue/App.vue';
 
-import './style/index.css'
-import './assets/styles/style.styl'
-import './assets/styles/global.styl'
+import './style/index.css';
+import './assets/styles/style.styl';
+import './assets/styles/global.styl';
 
-const root = document.createElement('div')
-document.body.appendChild(root)
+// 引入路由
+// router变量 一定要小写，不要写成Router, 否则报 can't match的报错
+import router from './vue/router.js';
 
 new Vue({
-  render: (h) => h(App)
-}).$mount(root)
+    el: '#root',
+    router,
+    render: (h) => h(App),
+});

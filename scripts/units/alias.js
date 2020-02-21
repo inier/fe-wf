@@ -7,7 +7,7 @@ module.exports = ({ config, resolve, options }) => {
         // 生成默认别名
         const dirs = fs.readdirSync(resolve('src'));
         let aliasConfig = config.resolve.extensions
-            .merge(['.mjs', '.js', '.jsx', '.vue', 'ts', 'tsx', '.json', '.wasm'])
+            .merge(['.mjs', '.js', '.jsx', '.vue', '.ts', '.tsx', '.json', '.wasm'])
             .end().alias;
         dirs.forEach((v) => {
             const stat = fs.statSync(resolve(`src/${v}`));

@@ -95,7 +95,7 @@ module.exports = (options) => {
 
         // css 相关的处理
         style: {
-            extract: style.extract || true, // 是否使用css分离插件 ExtractTextPlugin
+            extract: typeof style.extract === 'undefined' ? true : style.extract, // 是否使用css分离插件 ExtractTextPlugin
             sourceMap: style.sourceMap || isEnvDev, // 开启 CSS source maps
             // 添加css-/postcss-/scss(sass)-/less-/stylus-loader的自定义options
             loaderOptions: {

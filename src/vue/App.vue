@@ -1,35 +1,36 @@
 <template>
-    <div id="app">
+    <div id="root" class="center">
         <Header></Header>
-        <Todo></Todo>
-        <Test></Test>
+        <div class="menu center">
+            <router-link to="/">首页</router-link>
+            <router-link to="/component">组件</router-link>
+            <router-link to="/todo">Todo</router-link>
+        </div>
+        <router-view class="view center"></router-view>
         <Footer></Footer>
     </div>
 </template>
 
 <script>
-import Header from './todo/header.vue';
-import Footer from './todo/footer.jsx';
-import Todo from './todo/todo.vue';
-import Test from './test.vue';
+import Header from './header.vue';
+import Footer from './footer.jsx';
 
 export default {
     components: {
         Header,
         Footer,
-        Todo,
-        Test,
     },
 };
 </script>
 
 <style lang="scss" scoped>
-#app {
+#root {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
+    flex-direction: column;
 
     #cover {
         position: absolute;
@@ -41,5 +42,40 @@ export default {
         opacity: 0.2;
         z-index: -1;
     }
+
+    .menu {
+        height: 50px;
+        line-height: 50px;
+        color: #333;
+        font-size: 18px;
+        background-color: rgba(255, 255, 255, 0.8);
+
+        a {
+            margin: 0 10px;
+        }
+
+        .active {
+            color: #f33;
+        }
+    }
+
+    .view {
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 20px;
+        min-height: 50vh;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .menu,
+    .view {
+        width: 80%;
+    }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

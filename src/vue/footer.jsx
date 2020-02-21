@@ -3,12 +3,12 @@ import '@src/assets/styles/footer.styl';
 export default {
     data() {
         return {
-            author: 'ok',
+            author: 'kk',
         };
     },
     render() {
         return (
-            <div id="footer" style={{ marginTop: '20px' }}>
+            <div id="footer">
                 <span>Written by {this.author}</span>
             </div>
         );

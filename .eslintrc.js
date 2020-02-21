@@ -4,7 +4,7 @@ module.exports = {
         browser: true,
         node: true,
     },
-    extends: ['plugin:vue/essential', 'standard'],
+    extends: ['plugin:vue/essential', 'eslint:recommended', 'standard'],
     rules: {
         indent: [2, 4],
         semi: 0,
@@ -15,6 +15,16 @@ module.exports = {
         'eslint-disable-next-line': 0,
         'no-useless-escape': 0,
         'one-var': 0,
+        'comma-dangle': [
+            'error',
+            {
+                arrays: 'never',
+                objects: 'never',
+                imports: 'never',
+                exports: 'never',
+                functions: 'ignore',
+            },
+        ],
     },
     globals: {
         wx: true,
