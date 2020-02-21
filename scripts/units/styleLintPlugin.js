@@ -6,7 +6,9 @@ module.exports = ({ config, options: { stylelint: { lintOnSave = false, extensio
     const stylelint = [];
 
     return () => {
-        if (!lintOnSave) return;
+        if (!lintOnSave) {
+            return;
+        }
         config
             .plugin('stylelint')
             .use(StyleLintPlugin, [
