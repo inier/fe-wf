@@ -16,22 +16,27 @@ export default {
     },
     methods: {
         deleteTodo() {
-            this.$emit('del', this.todo.id);
+            this.$emit('del', this.todo.id)
         },
     },
-};
+}
 </script>
 
 <style lang="scss" scoped>
 .todo-item {
+    box-sizing: border-box;
     position: relative;
     background-color: #fff;
-    font-size: 24px;
+    font-size: 16px;
+    min-height: 50px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
     &:hover {
         .destory::after {
-            content: 'x';
+            content: '+';
+            display: block;
+            font-size: 45px;
+            transform: rotate(45deg);
         }
     }
 
@@ -81,10 +86,10 @@ export default {
     bottom: 0;
     width: 40px;
     height: 40px;
+    line-height: 40px;
     margin: auto 0;
     font-size: 30px;
     color: #cc9a9a;
-    margin-bottom: 11px;
     transition: color 0.2s ease-out;
     background-color: transparent;
     appearance: none;
@@ -93,5 +98,3 @@ export default {
     outline: none;
 }
 </style>
-
-

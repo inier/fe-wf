@@ -61,9 +61,9 @@ module.exports = ({ config, resolve, options }) => {
         config.plugin('html').use(HtmlWebpackPlugin, [htmlOption]);
 
         // 将dll打包后的js文件注入到生成的 html 中
-        if (options.dll) {
-            const { entry, output: dllPath } = options.dllCfg || {};
-            const dllEntry = options.name || entry;
+        if (options.dll && options.libType) {
+            const { output: dllPath, publicPath: dllPublicPath } = options.dllCfg || {};
+            const dllEntry = options.libType;
 
             if (options.sep) {
                 // https://github.com/SimenB/add-asset-html-webpack-plugin
@@ -82,24 +82,25 @@ module.exports = ({ config, resolve, options }) => {
                 // 复制文件
                 // https://webpack.docschina.org/plugins/copy-webpack-plugin/
                 const CopyPlugin = require('copy-webpack-plugin');
-                await config
+                config
                     .plugin('CopyPlugin')
                     .use(CopyPlugin, [[{ from: resolve(dllPath), to: resolve(options.dist, dllPath) }]]);
 
                 // https://github.com/jharris4/html-webpack-tags-plugin
                 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 
-                await config.plugin('HtmlWebpackTagsPlugin').use(HtmlWebpackTagsPlugin, [
+                config.plugin('HtmlWebpackTagsPlugin').use(HtmlWebpackTagsPlugin, [
                     {
                         tags: [
                             {
                                 // 打包单页且指定了spa参数时，项目会打包到输出目录的根目录中，需要改变dll的引入路径
-                                path: `${options.name && options.spa ? '' : '../'}${dllPath}`,
-                                glob: `dll.${dllEntry}*.js`,
+                                path: `${options.spa ? '' : '../'}${dllPath}`,
+                                glob: `dll.${dllEntry}_*.js`,
                                 globPath: dllPath,
                             },
                         ],
                         append: false,
+                        publicPath: dllPublicPath,
                     },
                 ]);
             }

@@ -1,16 +1,44 @@
 // .prettierrc.js
+// pretiier 标准配置
 
 // https://prettier.io/docs/en/options.html#trailing-commas
 
 module.exports = {
-  endOfLine: 'lf', // 使用Linux 的行尾风格
-  printWidth: 120, // 换行字符串阈值
-  tabWidth: 4, // 缩进
-  trailingComma: 'es5', // 最后一个对象元素加逗号的规则
-  singleQuote: true, // 用单引号
-  jsxBracketSameLine: false, // jsx > 是否另起一行
-  bracketSpacing: true, // 对象，数组加空格
-  arrowParens: 'always', // (x) => {} 是否要有小括号
-  proseWrap: 'preserve', // 是否要换行
-  requirePragma: false // 是否要注释来决定是否格式化代码
-}
+    // 在ES5中有效的结尾逗号（对象，数组等）
+    trailingComma: 'es5',
+    // 不使用缩进符，而使用空格
+    useTabs: false,
+    // tab 用两个空格代替
+    tabWidth: 4,
+    // 仅在语法可能出现错误的时候才会添加分号
+    semi: true,
+    // 使用单引号
+    singleQuote: true,
+    // 在Vue文件中缩进脚本和样式标签。
+    // vueIndentScriptAndStyle: true,
+    // 一行最多 100 字符
+    printWidth: 120,
+    // 对象的 key 仅在必要时用引号
+    quoteProps: 'as-needed',
+    // jsx 不使用单引号，而使用双引号
+    jsxSingleQuote: false,
+    // 大括号内的首尾需要空格
+    bracketSpacing: true,
+    // jsx 标签的反尖括号需要换行
+    jsxBracketSameLine: false,
+    // 箭头函数，只有一个参数的时候，也需要括号
+    arrowParens: 'always',
+    // 每个文件格式化的范围是文件的全部内容
+    rangeStart: 0,
+    rangeEnd: Infinity,
+    // 不需要写文件开头的 @prettier
+    requirePragma: false,
+    // 不需要自动在文件开头插入 @prettier
+    insertPragma: false,
+    // 使用默认的折行标准
+    proseWrap: 'preserve',
+    // 根据显示样式决定 html 要不要折行
+    htmlWhitespaceSensitivity: 'css',
+    // 换行符使用 lf
+    endOfLine: 'lf',
+};

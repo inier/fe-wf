@@ -17,20 +17,20 @@
 </template>
 
 <script>
-import Item from './item.vue';
-import Tabs from './tabs.vue';
-import Header from './header.vue';
-import Footer from './footer.jsx';
-import { constants } from 'crypto';
+import Item from './item.vue'
+import Tabs from './tabs.vue'
+import Header from './header.vue'
+import Footer from './footer.jsx'
+import { constants } from 'crypto'
 
-let id = 0;
+let id = 0
 
 export default {
     data() {
         return {
             todos: [],
             filter: 'all',
-        };
+        }
     },
     components: {
         Item,
@@ -41,10 +41,10 @@ export default {
     computed: {
         filterTodos() {
             if (this.filter === 'all') {
-                return this.todos;
+                return this.todos
             }
-            const filterCompleted = this.filter === 'completed';
-            return this.todos.filter((todo) => todo.completed === filterCompleted);
+            const filterCompleted = this.filter === 'completed'
+            return this.todos.filter((todo) => todo.completed === filterCompleted)
         },
     },
     methods: {
@@ -53,30 +53,30 @@ export default {
                 id: id++,
                 content: e.target.value,
                 completed: false,
-            });
+            })
 
-            e.target.value = '';
+            e.target.value = ''
         },
         deleteTodo(id) {
             this.todos.splice(
                 this.todos.findIndex((todo) => id === todo.id),
                 1
-            );
+            )
         },
         toggleFilter(state) {
-            console.log(state);
-            this.filter = state;
+            console.log(state)
+            this.filter = state
         },
         clearAllCompletedTodo() {
-            this.todos = this.todos.filter((todo) => todo.completed === false);
+            this.todos = this.todos.filter((todo) => todo.completed === false)
         },
     },
-};
+}
 </script>
 
 <style lang="scss" scoped>
 .real-app {
-    width: 600px;
+    min-width: 450px;
     margin: 0 auto;
     box-shadow: 0 0 5px #666;
 }
@@ -98,5 +98,3 @@ export default {
     box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
 </style>
-
-

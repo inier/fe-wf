@@ -1,5 +1,5 @@
 module.exports = function({ injectCommand }) {
-    injectCommand(function({ program, boxConfig, cleanArgs, start, setEnv, isMultiPages, execCmd }) {
+    injectCommand(function({ program, boxConfig, cleanArgs, start, setEnv, isMultiPages, execCmd, execDll }) {
         program
             .command('dev [pageName]')
             .description(`开发环境构建`)
@@ -13,14 +13,31 @@ module.exports = function({ injectCommand }) {
                 const options = cleanArgs(cmd);
                 const args = Object.assign(
                     options,
-                    { cmd: cmd._name, name, isMultiPages: isMultiPages(name, boxConfig, options) },
+                    {
+                        cmd: cmd._name,
+                        name,
+                        // libType：框架类型，jQuery、react、vue等
+                        libType: undefined,
+                        // lib：指定框架下需要抽离的公共库
+                        lib: [],
+                        isMultiPages: isMultiPages(name, boxConfig, options),
+                    },
                     boxConfig
                 );
 
                 start(args.cmd);
                 if (args.dll) {
-                    require('../scripts/dll')(args);
+                    execDll(args, () => {
+                        require('../scripts/dll')(args);
+                    });
+                    Object.assign(args, {
+                        // libType：框架类型，jQuery、react、vue等
+                        libType: undefined,
+                        // lib：指定框架下需要抽离的公共库
+                        lib: [],
+                    });
                 }
+
                 execCmd(
                     args,
                     () => {

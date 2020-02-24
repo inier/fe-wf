@@ -46,7 +46,7 @@ module.exports.injectCommand = function(cmd) {
     if (typeof cmd !== 'function') {
         return console.error(cmd, '必须是一个函数');
     }
-    cmd({ program, boxConfig, commandName, commandStore, cleanArgs, start, setEnv, isMultiPages, execCmd });
+    cmd({ program, boxConfig, commandName, commandStore, cleanArgs, start, setEnv, isMultiPages, execCmd, execDll });
 };
 
 module.exports.commandComplete = function() {
@@ -98,7 +98,7 @@ function isNotEmptyObj(obj) {
 
 // 判断是否多页面
 function isMultiPages(name, boxConf, options) {
-    return !(name && options.spa) && (isNotEmptyObj(boxConf.pages) || typeof boxConf.entry === 'object');
+    return !(name && options.spa) && isNotEmptyObj(boxConf.pages);
 }
 
 function start(name = process.env.npm_lifecycle_event) {
@@ -112,25 +112,66 @@ function execCmd(args, cb, isDev = false) {
     if (args.isMultiPages) {
         // 多页面时标记需清除
         args.clear = true;
-        const { name, pages, entry } = args;
-        const multiPages = isNotEmptyObj(pages) || isNotEmptyObj(entry);
+        const { name, pages } = args;
+        const multiPages = isNotEmptyObj(pages);
 
-        if (name) {
-            args.entry = multiPages[name].entry;
+        if (name && multiPages[name]) {
+            const { entry, type } = multiPages[name];
+
+            args.entry = entry;
+
+            if (isNotEmptyObj(args.libs) && Object.keys(args.libs).includes(type)) {
+                // libType：框架类型，react、vue等
+                args.libType = type;
+                // lib：指定框架下需要抽离的公共库
+                args.lib = args.libs[type];
+            }
 
             cb && cb();
         } else {
             multiPages &&
-                Object.keys(multiPages).forEach((page, index) => {
+                Object.keys(multiPages).forEach(async (page, index) => {
                     args.name = page;
-                    args.entry = multiPages[page].entry;
+                    const { entry, type } = multiPages[page];
+
+                    args.entry = entry;
+
+                    if (isNotEmptyObj(args.libs) && Object.keys(args.libs).includes(type)) {
+                        // libType：框架类型，react、vue等
+                        args.libType = type;
+                        // lib：指定框架下需要抽离的公共库
+                        args.lib = args.libs[type];
+                    }
+
                     if (isDev) {
                         args.devServer.port = args.devServer.port + index;
                     }
-                    cb && cb();
+                    cb && (await cb());
                 });
         }
     } else {
         cb && cb();
+    }
+}
+
+// 执行dll的回调
+function execDll(args, cb) {
+    const libTypes = Object.keys(args.libs);
+
+    if (libTypes.length) {
+        if (args.libType && libTypes.includes(args.libType)) {
+            args.lib = args.libs[args.libType];
+
+            cb && cb();
+        } else {
+            libTypes.forEach((libType) => {
+                args.libType = libType;
+                args.lib = args.libs[libType];
+
+                cb && cb();
+            });
+        }
+    } else {
+        console.log('请在box.config.js中配置要抽离的libs');
     }
 }

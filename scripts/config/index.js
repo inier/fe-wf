@@ -41,12 +41,14 @@ module.exports = (options) => {
         entry = '',
         dist = 'dist',
         publicPath = '/',
-        libs = [],
+        libs = {},
         alias = defaultAlias,
         html = {},
         pages = false,
         style = {},
         dllCfg = {},
+        env = {},
+        assets = {},
     } = userConfig;
 
     const { isEnvProd, isEnvDev } = options;
@@ -58,6 +60,14 @@ module.exports = (options) => {
             entry,
             // 公共地址，用于处理静态资源的引用问题，可以是相对路径或CDN等绝对地址
             publicPath,
+            // 静态资源
+            assets: {
+                path: 'assets',
+                limit: 4196,
+                hash: true,
+                quality: '60-80',
+                ...assets,
+            },
             // 发布路径
             dist,
             // 第三方库分割，优先级按先后顺序
@@ -69,13 +79,14 @@ module.exports = (options) => {
             externals: {
                 // jquery: 'jQuery'
             },
+            env,
         },
         // html相关
         html: {
             // 生成html中默认的容器节点ID,默认值为root
             rootId: 'root',
             // 生成html中的标题
-            title: 'webpack-cli',
+            title: 'webpack-demo',
             // favicon
             favicon: 'public/favicon.ico',
             // html模板文件的路径
@@ -88,8 +99,9 @@ module.exports = (options) => {
         // dll打包相关
         dllCfg: {
             // dll动态链接库名称
-            entry: 'vendors',
+            entry: 'vendors', // entry由libs字段中的key确定
             output: 'dll',
+            publicPath,
             ...dllCfg,
         },
 

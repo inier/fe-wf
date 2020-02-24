@@ -10,4 +10,5 @@ module.exports = function resolveClientEnv(options, raw) {
     if (options.env) {
         Object.assign(env, options.env);
     }
+    return env;
 };

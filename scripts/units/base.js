@@ -1,6 +1,6 @@
 // [基础配置]
 
-module.exports = ({ config, resolve, options }) => {
+module.exports = ({ config, webpackVersion, resolve, options }) => {
     const {
         name = 'index',
         dist,
@@ -21,17 +21,34 @@ module.exports = ({ config, resolve, options }) => {
     }
 
     return () => {
-        //== 模式 "production" | "development" | "none"
+        //== mode  "production" | "development" | "none"
         config.mode(process.env.NODE_ENV);
 
         //== base entry & output
         // base entry
-        config
-            // 入口名称
-            .entry(name)
-            // 入口路径
-            .add(resolve(entry))
-            .end();
+        if (typeof entry === 'string') {
+            config
+                // 入口名称
+                .entry(name)
+                // 入口路径
+                .add(resolve(entry))
+                .end()
+                .cache({
+                    type: 'filesystem',
+                });
+        } else if (typeof entry === 'object') {
+            Object.keys(entry).forEach((item) => {
+                config
+                    // 入口名称
+                    .entry(item)
+                    // 入口路径
+                    .add(resolve(entry[item]))
+                    .end()
+                    .cache({
+                        type: 'filesystem',
+                    });
+            });
+        }
 
         // output
         const filename = isEnvProd ? 'static/js/[name].[chunkhash:8].js' : 'static/js/bundle.js';
@@ -41,14 +58,18 @@ module.exports = ({ config, resolve, options }) => {
             .path(resolve(tDist))
             // Add /* filename */ comments to generated require()s in the output.
             // .pathinfo(isEnvDev)
-            .publicPath(publicPath)
             .filename(filename)
             .chunkFilename(chunkFilename)
+            .publicPath(publicPath)
             // .libraryTarget('umd')
             // .umdNamedDefine(true)
             // .library('library')
             .jsonpFunction(`webpackJsonp${appPackageJson.name}`)
             .globalObject('this');
+
+        if (parseInt(webpackVersion) === 5) {
+            config.output.set('ecmaVersion', 6);
+        }
 
         // 开启 SourceMap
         // https://webpack.docschina.org/configuration/devtool/#devtool

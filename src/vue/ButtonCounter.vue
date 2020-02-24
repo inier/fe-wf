@@ -28,6 +28,13 @@ export default {
     background-color: aquamarine;
     outline: none;
     transition: background-color 0.6s ease-out;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background-color: darken(aquamarine, 20%);
+        transition: background-color 0.6s ease-in;
+    }
 
     &:active {
         background-color: darken(aquamarine, 10%);

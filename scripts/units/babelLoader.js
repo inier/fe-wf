@@ -2,7 +2,7 @@
 // https://webpack.docschina.org/loaders/babel-loader/
 // https://github.com/babel/babel-loader
 
-module.exports = ({ config, resolve, options }) => {
+module.exports = ({ config, webpackVersion, resolve, options }) => {
     const babelConfig = require(resolve('scripts/config/babel.js'))(options);
     const {
         isVueEnabled,
@@ -11,9 +11,11 @@ module.exports = ({ config, resolve, options }) => {
         isEnvProd,
         isEnvTest,
         map: shouldUseSourceMap,
-        libs = [],
+        libs,
         dll: useDll,
     } = options;
+
+    const ver = parseInt(webpackVersion);
 
     let babelOptions = {
         presets: ['@babel/preset-env'],
@@ -51,7 +53,7 @@ module.exports = ({ config, resolve, options }) => {
         }
 
         // vue
-        if (options.name && options.name.includes('vue') && isVueEnabled) {
+        if (options.libType === 'vue' && isVueEnabled) {
             babelOptions.presets.push('@vue/babel-preset-jsx');
 
             createJSRule('vue', /\.vue$/, 'vue-loader');
@@ -102,19 +104,27 @@ module.exports = ({ config, resolve, options }) => {
         createJSRule('js', /\.jsx?$/, 'babel-loader', babelOptions); // babelConfig
 
         // split libs
-        if (libs && libs.length && !useDll) {
+        if (libs && options.lib.length && !useDll) {
             // Bundle Splitting
             // https://webpack.docschina.org/configuration/optimization/#optimization-splitchunks
             config.optimization.splitChunks({
                 chunks: 'async', // 'all'
-                minSize: 30000, // 大于30KB
+                // webpack5
+                // https://github.com/webpack/changelog-v5#splitchunks-and-module-sizes
+                minSize:
+                    ver === 5
+                        ? {
+                              javascript: 30000,
+                              style: 50000,
+                          }
+                        : 30000, // 大于30KB
                 minChunks: 1,
                 maxAsyncRequests: 3,
                 maxInitialRequests: 3,
                 cacheGroups: {
                     // 将公共的包提取到 chunk-vendors
                     lib: {
-                        name: `chunk-vendors`,
+                        name: `chunk-${options.libType}`,
                         test: /[\\/]node_modules[\\/]/,
                         priority: -10,
                         chunks: 'initial',

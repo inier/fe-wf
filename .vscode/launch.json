@@ -7,6 +7,10 @@
 
 
 
+
+
+
+
         {
             "type": "node",
             "request": "launch",
@@ -59,7 +63,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\bin/box.js",
-            "args": ["prod", "react", "-m", "-r", "-g"]
+            "args": ["prod", "react", "-d"]
         },
         {
             "type": "node",

@@ -7,11 +7,22 @@ module.exports = {
     dist: 'dist',
     // 公共地址，用于处理静态资源的引用问题，可以是相对路径或CDN等绝对地址
     publicPath: '/',
+    env: {
+        BASE_URL: '/',
+        MY_ENV: 'my-env',
+    },
     // 需要单独打包的三方库集合
-    libs: ['react', 'react-dom', 'vue'],
+    libs: {
+        react: ['react', 'react-dom'],
+        vue: ['vue'],
+    },
     alias: {
         '@': 'src',
         '@src': 'src',
+    },
+    //dll打包相关
+    dllCfg: {
+        publicPath: '',
     },
     eslint: {
         lintOnSave: true, // 开启运行时检测
@@ -31,27 +42,34 @@ module.exports = {
     pages: {
         index: {
             entry: 'src/index.js',
-            title: 'init page 1',
+            title: 'js demo',
             template: 'public/index.html',
             filename: 'index.html',
         },
-        index2: {
-            entry: 'src/index2.js',
+        indexTS: {
+            entry: 'src/index.ts',
+            title: 'ts demo',
             template: 'public/index.html',
             filename: 'index.html',
         },
         react: {
+            type: 'react',
             entry: 'src/react.js',
+            title: 'react demo',
             template: 'public/index.html',
             filename: 'index.html',
         },
         reactTS: {
+            type: 'react',
             entry: 'src/react.tsx',
+            title: 'react ts demo',
             template: 'public/index.html',
             filename: 'index.html',
         },
         vue: {
+            type: 'vue',
             entry: 'src/vue.js',
+            title: 'vue demo',
             template: 'public/index.html',
             filename: 'index.html',
         },

@@ -7,7 +7,7 @@
         "module": "esnext",
         "moduleResolution": "node",
         "allowJs": true,
-        "noEmit": true,
+        "noEmit": false,
         "strict": true,
         "pretty": true,
         "isolatedModules": true,
@@ -31,5 +31,5 @@
         }
     },
     "include": ["src"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }

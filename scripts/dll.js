@@ -9,20 +9,20 @@ module.exports = async function(options) {
     const Config = require('webpack-chain');
     const { joinPathCWD, rm } = require('../lib');
     const config = new Config();
-    const { entry, output } = options.dllCfg || {};
+    const { output } = options.dllCfg || {};
     const dllPath = joinPathCWD(output);
 
     if (options.report) {
         const BundleAnalyzerPlugin = require('./units/BundleAnalyzerPlugin')({ config, options });
         BundleAnalyzerPlugin();
     }
-    if (options.dll && !Array.isArray(options.libs)) {
-        throw console.log('请添加 dll.entry');
+    if (options.dll && !Object.keys(options.libs).length) {
+        console.log('请添加 libs');
     }
 
-    options.libs.forEach((item) => {
+    options.lib.forEach((item) => {
         config
-            .entry(options.name || entry)
+            .entry(options.libType)
             .add(item)
             .end();
     });
@@ -42,7 +42,7 @@ module.exports = async function(options) {
             {
                 // 和output.library中一致，值就是输出的manifest.json中的 name值
                 name: '[name]_[chunkhash:6]',
-                path: joinPathCWD(output, 'manifest.json'),
+                path: joinPathCWD(output, '[name]-manifest.json'),
             },
         ])
         .end();
